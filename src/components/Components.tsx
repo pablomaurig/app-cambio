@@ -5,10 +5,14 @@ export function CurrencyInput({
   label,
   value,
   onChange,
+  isLoading,
+  currencyOptions,
 }: {
   label: string;
   value: string;
+  isLoading: boolean;
   onChange: (v: string) => void;
+  currencyOptions: { value: string; label: string }[];
 }) {
   return (
     <div className="gap-4 flex flex-col">
@@ -24,10 +28,13 @@ export function CurrencyInput({
           className="col-start-1 row-start-1 appearance-none w-full h-10 rounded border border-gray-300 px-3 text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-purple-100"
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          disabled={isLoading}
         >
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="ARS">ARS</option>
+          {currencyOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
 
         <ChevronDownIcon className="pointer-events-none col-start-1 row-start-1 mr-4 size-5 self-center justify-self-end text-gray-500 sm:size-4" />
@@ -40,9 +47,11 @@ export function AmountInput({
   value,
   label,
   onChange,
+  isLoading,
 }: {
   value: string;
   label: string;
+  isLoading: boolean;
   onChange: (v: string) => void;
 }) {
   return (
@@ -64,6 +73,7 @@ export function AmountInput({
       focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-purple-100"
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          disabled={isLoading}
         />
       </div>
     </div>
@@ -114,6 +124,48 @@ export function ConversionInfo({ className = '' }: { className?: string }) {
         US Dollar
       </a>{' '}
       conversion — Last updated Dec 15, 2022, 19:17 UTC
+    </div>
+  );
+}
+
+type ToastType = 'info' | 'success' | 'error';
+
+interface ToastProps {
+  message: string;
+  type?: ToastType;
+  onRetry?: () => void;
+  retryLabel?: string;
+  className?: string;
+}
+
+const colors = {
+  info: 'bg-blue-100 text-blue-800',
+  success: 'bg-green-100 text-green-800',
+  error: 'bg-red-100 text-red-800',
+};
+
+export function Toast({
+  message,
+  type = 'info',
+  onRetry,
+  retryLabel = 'Reintentar',
+  className = '',
+}: ToastProps) {
+  return (
+    <div
+      role="alert"
+      className={`fixed bottom-4 right-4 max-w-xs p-4 rounded shadow-md flex items-center justify-between ${colors[type]} ${className}`}
+    >
+      <p className="mr-4 text-sm">{message}</p>
+      {onRetry && (
+        <button
+          onClick={onRetry}
+          className="font-semibold underline text-sm hover:text-opacity-75 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500 rounded"
+          aria-label={retryLabel}
+        >
+          {retryLabel}
+        </button>
+      )}
     </div>
   );
 }
