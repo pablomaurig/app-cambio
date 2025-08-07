@@ -1,29 +1,47 @@
-import { useState } from 'react';
-import {
-  CurrencyInput,
-  AmountInput,
-  SwapButton,
-  Result,
-  InfoTooltip,
-  ConversionInfo,
-  Toast,
-} from './components/Components';
 import { useCurrencies } from './hooks/useCurrencies';
+import { useConversionState } from './hooks/useConversionState';
+import { useConversion } from './hooks/useConversion';
+import { AmountInput } from './components/amount-input';
+import { CurrencyInput } from './components/currency-input';
+import { SwapButton } from './components/swap-button';
+import { Result } from './components/result';
+import { InfoTooltip } from './components/info-tooltip';
+import { ConversionInfo } from './components/conversion-info';
+import { Toast } from './components/toast';
 
 export default function App() {
   const {
     currencyOptions,
     data: currencies,
-    isLoading,
-    refetch,
-    error,
+    isLoading: isCurrenciesLoading,
+    refetch: refetchCurrencies,
+    error: currenciesError,
   } = useCurrencies();
-  const [fromCurrency, setFromCurrency] = useState('USD');
-  const [toCurrency, setToCurrency] = useState('EUR');
-  const [amount, setAmount] = useState('1');
+  const {
+    amount,
+    from,
+    to,
+    setAmountToConvert,
+    setFromCurrency,
+    setToCurrency,
+    swap,
+  } = useConversionState();
+  const {
+    conversionRate,
+    convertedAmount,
+    isLoading: isLoadingConversion,
+    lastUpdated,
+    error: conversionError,
+    refetch: refetchConversion,
+  } = useConversion(from, to, amount);
 
-  const selectedFromOption = currencies?.[fromCurrency];
-  const selectedToOption = currencies?.[toCurrency];
+  const selectedFromOption = currencies?.[from];
+  const selectedToOption = currencies?.[to];
+
+  const errorConfig = [
+    { error: currenciesError, refetch: refetchCurrencies },
+    { error: conversionError, refetch: refetchConversion },
+  ].find(({ error }) => !!error);
 
   return (
     <>
@@ -44,39 +62,58 @@ export default function App() {
             <AmountInput
               label="Amount"
               value={amount}
-              onChange={setAmount}
-              isLoading={isLoading}
+              onChange={setAmountToConvert}
+              isLoading={isCurrenciesLoading}
             />
             <CurrencyInput
               label="From"
-              value={fromCurrency}
+              value={from}
               onChange={setFromCurrency}
-              isLoading={isLoading}
+              isLoading={isCurrenciesLoading}
               currencyOptions={currencyOptions}
             />
-            <SwapButton />
+            <SwapButton onSwap={swap} />
             <CurrencyInput
               label="to"
-              value={toCurrency}
+              value={to}
               onChange={setToCurrency}
-              isLoading={isLoading}
+              isLoading={isCurrenciesLoading}
               currencyOptions={currencyOptions}
             />
           </div>
           <div className="grid md:grid-cols-[1fr_1fr] items-center mt-6 md:mt-16 md:min-h-40">
-            <Result />
+            <Result
+              conversionRate={conversionRate}
+              convertedAmount={convertedAmount}
+              loading={isLoadingConversion}
+              amount={amount}
+              from={selectedFromOption}
+              to={selectedToOption}
+            />
             <InfoTooltip />
           </div>
-          <ConversionInfo className="hidden md:block" />
+          <ConversionInfo
+            className="hidden md:block"
+            selectedFromOption={selectedFromOption}
+            selectedToOption={selectedToOption}
+            lastUpdated={lastUpdated}
+            isLoading={isLoadingConversion}
+          />
         </section>
-        <ConversionInfo className="block md:hidden px-6" />
+        <ConversionInfo
+          className="block md:hidden px-6"
+          selectedFromOption={selectedFromOption}
+          selectedToOption={selectedToOption}
+          lastUpdated={lastUpdated}
+          isLoading={isLoadingConversion}
+        />
       </main>
 
-      {error && (
+      {errorConfig && (
         <Toast
           type="error"
-          message={error.message}
-          onRetry={refetch}
+          message={errorConfig.error?.message || 'Ocurrió un error'}
+          onRetry={errorConfig.refetch}
           retryLabel="Intentar de nuevo"
         />
       )}

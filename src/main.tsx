@@ -4,7 +4,7 @@ import './index.css';
 import App from './App.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { fetchCurrencies } from './services/exchangeService.ts';
+import { fetchCurrencies } from './services/exchange-service.ts';
 import { CurrencySchema } from './schemas/currencies.ts';
 
 const queryClient = new QueryClient();
