@@ -1,6 +1,6 @@
 # Calculadora de Cambio de Divisas
 
-![Design preview](./public/design-preview.png)
+![Design preview](./public/screenshot.jpg)
 
 Aplicación web para calcular el cambio entre monedas en tiempo real, basada en el diseño provisto en Figma y consumiendo la API pública de [VATComply](https://api.vatcomply.com/docs).
 
