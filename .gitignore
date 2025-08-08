@@ -10,7 +10,6 @@ lerna-debug.log*
 
 # Node & Package Managers
 node_modules/
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
