@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import type { CurrencyData } from '../schemas/currencies';
-import { fetchCurrencies } from '../services/exchange-service';
+import type { CurrencyData } from '../../schemas/currencies';
+import { fetchCurrencies } from '../../services/exchange-service';
 
 export function useCurrencies() {
   const query = useQuery<CurrencyData>({

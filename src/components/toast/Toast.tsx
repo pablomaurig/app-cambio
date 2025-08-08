@@ -24,6 +24,7 @@ export function Toast({
   return (
     <div
       role="alert"
+      aria-live="assertive"
       className={`fixed bottom-4 right-4 max-w-xs p-4 rounded shadow-md flex items-center justify-between ${colors[type]} ${className}`}
     >
       <p className="mr-4 text-sm">{message}</p>

@@ -1,4 +1,4 @@
-import { SwapCurrencyIcon } from './icons/swap-currency-icon';
+import { SwapCurrencyIcon } from '../icons/SwapCurrencyIcon';
 
 export function SwapButton({ onSwap }: { onSwap: () => void }) {
   return (

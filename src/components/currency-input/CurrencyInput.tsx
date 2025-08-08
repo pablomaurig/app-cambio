@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from './icons/chevron-down-icon';
+import { ChevronDownIcon } from '../icons/ChevronDownIcon';
 
 export function CurrencyInput({
   label,
@@ -24,6 +24,7 @@ export function CurrencyInput({
       <div className="grid grid-cols-1">
         <select
           id={label}
+          aria-label={label}
           className="col-start-1 row-start-1 appearance-none w-full h-10 rounded border border-gray-300 px-3 text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-purple-100"
           value={value}
           onChange={(e) => onChange(e.target.value)}
