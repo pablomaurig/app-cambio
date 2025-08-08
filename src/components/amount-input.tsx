@@ -63,9 +63,15 @@ export function AmountInput({
             value={internalValue}
             onChange={handleOnChange}
             disabled={isLoading}
+            aria-invalid={error ? 'true' : 'false'}
+            aria-describedby={error ? `${label}-error` : undefined}
           />
           <div className="h-0 relative">
-            {error && <p className="text-sm text-red-600 mt-1">{error}</p>}
+            {error && (
+              <p id={`${label}-error`} className="text-sm text-red-600 mt-1">
+                {error}
+              </p>
+            )}
           </div>
         </div>
       </div>
