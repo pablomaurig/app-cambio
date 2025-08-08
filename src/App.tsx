@@ -74,7 +74,7 @@ export default function App() {
             />
             <SwapButton onSwap={swap} />
             <CurrencyInput
-              label="to"
+              label="To"
               value={to}
               onChange={setToCurrency}
               isLoading={isCurrenciesLoading}

@@ -46,7 +46,12 @@ export function ConversionInfo({
   return (
     <div className={`mt-8 md:text-right text-xs ${className}`}>
       {fromLink ? (
-        <a href={fromLink} target="_blank" className="underline">
+        <a
+          href={fromLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
           {selectedFromOption?.name}
         </a>
       ) : (
@@ -54,7 +59,12 @@ export function ConversionInfo({
       )}{' '}
       to{' '}
       {toLink ? (
-        <a href={toLink} target="_blank" className="underline">
+        <a
+          href={toLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
           {selectedToOption?.name}
         </a>
       ) : (
