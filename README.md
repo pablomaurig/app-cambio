@@ -1,69 +1,24 @@
-# React + TypeScript + Vite
+# Calculadora de Cambio de Divisas
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Design preview](./public/design-preview.png)
 
-Currently, two official plugins are available:
+Aplicación web para calcular el cambio entre monedas en tiempo real, basada en el diseño provisto en Figma y consumiendo la API pública de [VATComply](https://api.vatcomply.com/docs).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Vista previa
 
-## Expanding the ESLint configuration
+[App desplegada en Vercel](https://app-cambio-virid.vercel.app/)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Challenge
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Se requiere desarrollar una calculadora de cambio de divisas en React.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+**Diseño**: [Figma Link](https://www.figma.com/design/8LKA0727kw0xWmgPurP1jR/Exchange-challenge)  
+**API**: [VATComply](https://api.vatcomply.com/docs)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**Precondiciones**:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Monto inicial: `1.00`
+- Conversión inicial: USD → EUR
+- No se aceptan montos negativos
+- Conversión automática al modificar el valor
+- Botón para intercambiar monedas
