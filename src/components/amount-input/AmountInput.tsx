@@ -20,16 +20,34 @@ export function AmountInput({
 
     return decimalPart !== undefined ? `${intPart}.${decimalPart}` : intPart;
   }
+  function cleanInput(input: string): string {
+    let cleaned = input.replace(/,/g, '.');
+    cleaned = cleaned.replace(/[^0-9.]/g, '');
+    const parts = cleaned.split('.');
+    if (parts.length > 2) {
+      cleaned = parts[0] + '.' + parts.slice(1).join('');
+    }
+
+    return cleaned;
+  }
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value;
+    let rawValue = e.target.value;
+
+    rawValue = cleanInput(rawValue);
+
     const normalized = normalizeAmountPreservingDecimals(rawValue);
 
     setInternalValue(normalized);
 
     const num = Number(normalized);
-    if (isNaN(num) || num <= 0) {
-      setError('Ingresá un monto válido mayor a cero');
+
+    if (isNaN(num)) {
+      setError('Please enter a valid number');
+      return;
+    }
+    if (num <= 0) {
+      setError('Amount must be greater than zero');
       return;
     }
 
@@ -51,7 +69,9 @@ export function AmountInput({
         </span>
         <div>
           <input
-            type="number"
+            type="text"
+            inputMode="decimal"
+            pattern="[0-9.,]*"
             id={label}
             className={`appearance-none w-full h-10 rounded border pl-7 pr-3 text-base font-semibold text-gray-900
             ${error ? 'border-red-500' : 'border-gray-300'}
