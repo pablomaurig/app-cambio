@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchRates } from '../services/exchange-service';
+import { fetchRates } from '../../services/exchange-service';
 
 export function useConversion(from: string, to: string, amount: number) {
   const queryClient = useQueryClient();

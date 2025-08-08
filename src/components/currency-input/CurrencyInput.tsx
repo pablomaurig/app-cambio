@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from './icons/chevron-down-icon';
+import { ChevronDownIcon } from '../icons/ChevronDownIcon';
 
 export function CurrencyInput({
   label,

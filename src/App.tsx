@@ -1,13 +1,13 @@
-import { useCurrencies } from './hooks/useCurrencies';
-import { useConversionState } from './hooks/useConversionState';
-import { useConversion } from './hooks/useConversion';
-import { AmountInput } from './components/amount-input';
-import { CurrencyInput } from './components/currency-input';
-import { SwapButton } from './components/swap-button';
-import { Result } from './components/result';
-import { InfoTooltip } from './components/info-tooltip';
-import { ConversionInfo } from './components/conversion-info';
-import { Toast } from './components/toast';
+import { useCurrencies } from '@/hooks/use-currencies';
+import { useConversionState } from '@/hooks/use-conversion-state';
+import { useConversion } from '@/hooks/use-conversion';
+import { AmountInput } from '@/components/amount-input';
+import { CurrencyInput } from '@/components/currency-input';
+import { SwapButton } from '@/components/swap-button';
+import { Result } from '@/components/result';
+import { InfoTooltip } from '@/components/info-tooltip';
+import { ConversionInfo } from '@/components/conversion-info';
+import { Toast } from '@/components/toast';
 
 export default function App() {
   const {
