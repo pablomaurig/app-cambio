@@ -1,7 +1,21 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchRates } from '../../services/exchange-service';
 
-export function useConversion(from: string, to: string, amount: number) {
+interface UseConversionResult {
+  conversionRate: number | null;
+  convertedAmount: number;
+  isLoading: boolean;
+  error: unknown;
+  prefetch: (currency: string) => void;
+  refetch: () => void;
+  lastUpdated: number;
+}
+
+export function useConversion(
+  from: string,
+  to: string,
+  amount: number
+): UseConversionResult {
   const queryClient = useQueryClient();
 
   const { data, isLoading, error, dataUpdatedAt, refetch } = useQuery({

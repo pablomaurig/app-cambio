@@ -112,7 +112,14 @@ export default function App() {
       {errorConfig && (
         <Toast
           type="error"
-          message={errorConfig.error?.message || 'Ocurrió un error'}
+          message={
+            errorConfig &&
+            errorConfig.error &&
+            typeof errorConfig.error === 'object' &&
+            'message' in errorConfig.error
+              ? (errorConfig.error as { message: string }).message
+              : 'Ocurrió un error'
+          }
           onRetry={errorConfig.refetch}
           retryLabel="Intentar de nuevo"
         />

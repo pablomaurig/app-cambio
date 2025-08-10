@@ -29,8 +29,6 @@ export function ConversionInfo({
   const fromLink = getCurrencyLink(selectedFromOption);
   const toLink = getCurrencyLink(selectedToOption);
 
-  console.log('fromLink', fromLink);
-
   if (!isLoading && lastUpdated && lastUpdatedRef.current !== lastUpdated) {
     lastUpdatedRef.current = lastUpdated;
   }
