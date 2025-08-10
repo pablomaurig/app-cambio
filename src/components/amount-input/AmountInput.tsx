@@ -20,16 +20,34 @@ export function AmountInput({
 
     return decimalPart !== undefined ? `${intPart}.${decimalPart}` : intPart;
   }
+  function cleanInput(input: string): string {
+    let cleaned = input.replace(/,/g, '.');
+    cleaned = cleaned.replace(/[^0-9.]/g, '');
+    const parts = cleaned.split('.');
+    if (parts.length > 2) {
+      cleaned = parts[0] + '.' + parts.slice(1).join('');
+    }
+
+    return cleaned;
+  }
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value;
+    let rawValue = e.target.value;
+
+    rawValue = cleanInput(rawValue);
+
     const normalized = normalizeAmountPreservingDecimals(rawValue);
 
     setInternalValue(normalized);
 
     const num = Number(normalized);
-    if (isNaN(num) || num <= 0) {
-      setError('Ingresá un monto válido mayor a cero');
+
+    if (isNaN(num)) {
+      setError('Please enter a valid number');
+      return;
+    }
+    if (num <= 0) {
+      setError('Amount must be greater than zero');
       return;
     }
 
@@ -51,7 +69,9 @@ export function AmountInput({
         </span>
         <div>
           <input
-            type="number"
+            type="text"
+            inputMode="decimal"
+            pattern="[0-9.,]*"
             id={label}
             className={`appearance-none w-full h-10 rounded border pl-7 pr-3 text-base font-semibold text-gray-900
             ${error ? 'border-red-500' : 'border-gray-300'}
@@ -78,3 +98,32 @@ export function AmountInput({
     </div>
   );
 }
+/**
+ *
+ * Especificaciones:
+ * - Formato de entrada: solo números y punto decimal ('.'),
+ *   caracteres no permitidos se eliminan automáticamente,
+ *   no se permiten números negativos,
+ *   se conserva punto decimal aunque esté al final (ej: "12.").
+ *
+ * - Comportamiento:
+ *   input con type="text" por compatibilidad (especialmente Safari),
+ *   usa inputMode="decimal" para teclado numérico en móviles,
+ *   validación manual y limpieza con regex.
+ *
+ * - Normalización:
+ *   función normalizeAmountPreservingDecimals reemplaza coma por punto y elimina ceros a la izquierda.
+ *
+ * - Pruebas cubiertas:
+ *   ingreso números válidos,
+ *   ingreso caracteres inválidos se ignoran,
+ *   manejo correcto de separador decimal '.' y ',',
+ *   rechazo de números negativos,
+ *   conserva decimales incompletos (ej: "12.").
+ *
+ * - Notas técnicas:
+ *   input cambió de number a text para mejor control y evitar problemas con locales,
+ *   se agrega función cleanInput para eliminar caracteres inválidos,
+ *   manejo de estados internos para validación y errores,
+ *   accesibilidad con aria-invalid y aria-describedby.
+ */
