@@ -98,3 +98,32 @@ export function AmountInput({
     </div>
   );
 }
+/**
+ *
+ * Especificaciones:
+ * - Formato de entrada: solo números y punto decimal ('.'),
+ *   caracteres no permitidos se eliminan automáticamente,
+ *   no se permiten números negativos,
+ *   se conserva punto decimal aunque esté al final (ej: "12.").
+ *
+ * - Comportamiento:
+ *   input con type="text" por compatibilidad (especialmente Safari),
+ *   usa inputMode="decimal" para teclado numérico en móviles,
+ *   validación manual y limpieza con regex.
+ *
+ * - Normalización:
+ *   función normalizeAmountPreservingDecimals reemplaza coma por punto y elimina ceros a la izquierda.
+ *
+ * - Pruebas cubiertas:
+ *   ingreso números válidos,
+ *   ingreso caracteres inválidos se ignoran,
+ *   manejo correcto de separador decimal '.' y ',',
+ *   rechazo de números negativos,
+ *   conserva decimales incompletos (ej: "12.").
+ *
+ * - Notas técnicas:
+ *   input cambió de number a text para mejor control y evitar problemas con locales,
+ *   se agrega función cleanInput para eliminar caracteres inválidos,
+ *   manejo de estados internos para validación y errores,
+ *   accesibilidad con aria-invalid y aria-describedby.
+ */
