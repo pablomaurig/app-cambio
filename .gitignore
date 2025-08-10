@@ -52,3 +52,7 @@ coverage/
 .eslintcache
 *.bak
 *.tmp
+
+# Playwright test results and reports
+test-results/
+playwright-report/
